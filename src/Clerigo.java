@@ -1,6 +1,8 @@
-public class Clerigo  extends Personagens{
-    public Clerigo(int ID, String nome, int HP, int mana) {
-        super(ID, nome, HP, "Clerigo", mana);
+import java.io.Serializable;
+
+public class Clerigo  extends Personagens implements Serializable {
+    public Clerigo(int ID, String nome, int HP, int mana, int maxMana, int maxHP) {
+        super(ID, nome, HP, "Clerigo", mana, maxMana, maxHP);
     }
     
     //ataque normal

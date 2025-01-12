@@ -1,6 +1,8 @@
-public class Monge extends Personagens{
-    public Monge(int ID, String nome, int HP, int mana) {
-        super(ID, nome, HP, "Monge", mana);
+import java.io.Serializable;
+
+public class Monge extends Personagens implements Serializable {
+    public Monge(int ID, String nome, int HP, int mana, int maxMana, int maxHP) {
+        super(ID, nome, HP, "Monge", mana, maxMana, maxHP);
     }
 
      //ataque normal

@@ -1,6 +1,8 @@
-public class Guerreiro extends Personagens {
-    public Guerreiro(int ID, String nome, int HP, int mana){
-        super(ID, nome, HP, "Guerreiro", mana);
+import java.io.Serializable;
+
+public class Guerreiro extends Personagens implements Serializable {
+    public Guerreiro(int ID, String nome, int HP, int mana, int maxMana, int maxHP) {
+        super(ID, nome, HP, "Guerreiro", mana, maxMana, maxHP );
     }
 
 
@@ -13,6 +15,8 @@ public class Guerreiro extends Personagens {
     public void specialAttackQ(Interativos target){
         if(getMana() >= 18) {
             useMana(18);
+            System.out.println("\n-----------------------------");
+            System.out.println("\n-----------------------------\n");
             System.out.println(this.getNome() + " usou Sword Slash para atacar!");
             target.takeDamage(20);
         } else {

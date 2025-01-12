@@ -1,6 +1,8 @@
-public class Arqueiro  extends Personagens{
-    public Arqueiro(int ID, String nome, int HP, int mana) {
-        super(ID, nome, HP, "Arqueiro", mana);
+import java.io.Serializable;
+
+public class Arqueiro  extends Personagens implements Serializable {
+    public Arqueiro(int ID, String nome, int HP, int mana, int maxMana, int maxHP) {
+        super(ID, nome, HP, "Arqueiro", mana, maxMana, maxHP);
     }
 
 

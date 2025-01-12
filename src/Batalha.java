@@ -18,9 +18,8 @@ public class Batalha {
     public void startBattle() {
 
         while (player.getHP() > 0 && enemy.getHP() > 0) {
-            System.out.println("\n-------Iniciar Batalha-------");
+            System.out.println("\n-------Batalha-------");
             printStatus();
-
             playerTurn();
 
             if (enemy.getHP() > 0) {
@@ -32,7 +31,24 @@ public class Batalha {
             System.out.println("\nPerdeste a batalha!");
         } else {
             System.out.println("\nGanhaste a batalha!");
+            // Ganhar XP ao derrotar o inimigo
+            int xpGanho = calculateXP(enemy); // Método para calcular XP com base no inimigo
+            player.ganharXP(xpGanho);
+
+            player.restaurarHP(); // Restaurar HP após a batalha
+            player.restaurarMana(); // Restaurar mana após a batalha
+            SaveManager.salvarPersonagem(player); // Salvar progresso após a batalha
+            
         }
+    }
+
+    // Método para calcular XP ganho ao derrotar um inimigo
+    private int calculateXP(Monstros enemy) {
+        int baseXP = 50; // XP base ganho por derrotar um inimigo
+        int extraXP = random.nextInt(50); // XP extra aleatório
+        int totalXP = baseXP + extraXP;
+        System.out.println("\nGanhaste " + totalXP + " XP ao derrotar " + enemy.getNome() + "!");
+        return totalXP;
     }
 
     // Show Mana cost before selection metodo
@@ -64,17 +80,20 @@ public class Batalha {
         }
     }
 
-
     private void printStatus() {
-        System.out.println("\nEstado Atual:");
-        System.out.println(player.getNome() + " - HP: " + player.getHP() + " | Mana: " + player.getMana());
+        System.out.println("\n\nEstado Atual:");
+        System.out.println(player.getNome() + " - Classe: " + player.getPersonagemClasse() +
+                " | Nível: " + player.getNivel() +
+                " | HP: " + player.getHP() +
+                " | Mana: " + player.getMana());
+        System.out.println("XP Atual: " + player.getExperiencia() + "/" + player.getXpParaProximoNivel());
         System.out.println(enemy.getNome() + " - HP: " + enemy.getHP());
     }
 
     public void playerTurn() {
-        System.out.println("\nTeu turno! Escolha uma ação:\n");
+        System.out.println("\n\n\nÉ o teu turno! Escolha uma ação:\n");
         showManaCosts();
-        System.out.println("\n1. Normal Attack");
+        System.out.println("\n\n1. Normal Attack");
         System.out.println("2. Special Attack 1");
         System.out.println("3. Special Attack 2");
         System.out.println("4. Special attack 4");
@@ -146,13 +165,13 @@ public class Batalha {
                 }
                 break;
             default:
-                System.out.println("Invalid choice!");
+                System.out.println("Escolha inválida!");
         }
     }
 
     // Enemy's turn - random action
     private void enemyTurn() {
-        System.out.println("\n" + enemy.getNome() + "'s turn!");
+        System.out.println("\n\n\n É o turno de " + enemy.getNome());
 
         // Randomly choose attack type
         int enemyAction = random.nextInt(3); // Three possible actions for simplicity
@@ -169,4 +188,5 @@ public class Batalha {
                 break;
         }
     }
+
 }

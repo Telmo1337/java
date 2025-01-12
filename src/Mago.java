@@ -1,6 +1,8 @@
-public class Mago extends Personagens{
-    public Mago(int ID, String nome, int HP, int mana) {
-        super(ID, nome, HP, "Mago", mana);
+import java.io.Serializable;
+
+public class Mago extends Personagens implements Serializable {
+    public Mago(int ID, String nome, int HP, int mana, int maxMana, int maxHP) {
+        super(ID, nome, HP, "Mago", mana, maxMana, maxHP);
     }
 
     //ataque normal

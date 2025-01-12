@@ -1,6 +1,8 @@
-public class Cavaleiro extends Personagens {
-    public Cavaleiro(int ID, String nome, int HP, int mana){
-        super(ID, nome, HP, "Cavaleiro", mana);
+import java.io.Serializable;
+
+public class Cavaleiro extends Personagens implements Serializable {
+    public Cavaleiro(int ID, String nome, int HP, int mana, int maxMana, int maxHP){
+        super(ID, nome, HP, "Cavaleiro", mana, maxMana, maxHP);
     }
 
      // Normal Attack

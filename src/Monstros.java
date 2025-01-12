@@ -1,4 +1,4 @@
-public class Monstros implements Interativos {
+public class Monstros implements Interativos  {
     private int ID;
     private int HP;
     private String nome;
