@@ -6,12 +6,12 @@ public class Personagens implements Interativos, Serializable {
     private int mana;
     private String nome;
     private String personagemClasse;
-    private int maxMana; // Adicionar atributo de mana máxima
-    private int maxHP; // Adicionar atributo de HP máximo
-
-    private int nivel; // Adicionar atributo de nível
-    private int experiencia; // Atributo de experiência
-    private int xpParaProximoNivel; // A quantidade de XP necessária para o próximo nível
+    private int maxMana;
+    private int maxHP;
+    private int nivel;
+    private int experiencia;
+    private int xpParaProximoNivel;
+    private boolean banido; // Atributo para controle de banimento
 
     public Personagens(int ID, String nome, int HP, String personagemClasse, int mana, int maxMana, int maxHP) {
         this.ID = ID;
@@ -19,11 +19,12 @@ public class Personagens implements Interativos, Serializable {
         this.HP = HP;
         this.personagemClasse = personagemClasse;
         this.mana = mana;
-        this.nivel = 1; // Inicia com nível 1
-        this.experiencia = 0; // Inicia com 0 de XP
-        this.xpParaProximoNivel = 100; // XP necessário para o nível 2
-        this.maxMana = maxMana; // Adiciona a mana máxima
-        this.maxHP = maxHP; // Adiciona o HP máximo
+        this.nivel = 1;
+        this.experiencia = 0;
+        this.xpParaProximoNivel = 100;
+        this.maxMana = maxMana;
+        this.maxHP = maxHP;
+        this.banido = false; // Inicialmente, a personagem não está banida
     }
 
     @Override
@@ -56,7 +57,7 @@ public class Personagens implements Interativos, Serializable {
 
     @Override
     public void attack(Interativos target) {
-        target.takeDamage(0); // Exemplo de dano fixo
+        target.takeDamage(0);
     }
 
     public void useMana(int amount) {
@@ -67,9 +68,8 @@ public class Personagens implements Interativos, Serializable {
         }
     }
 
-    // adicionar metodo para ganahr XP
     public void ganharXP(int xpGanho) {
-        experiencia = experiencia + xpGanho;
+        experiencia += xpGanho;
         System.out.println("Ganhou " + xpGanho + " de XP!");
         System.out.println("XP Atual: " + experiencia + "/" + xpParaProximoNivel);
 
@@ -78,25 +78,19 @@ public class Personagens implements Interativos, Serializable {
         }
     }
 
-    // Adicionar método para subir de nível
     public void subirNivel() {
         nivel++;
         experiencia -= xpParaProximoNivel;
-        xpParaProximoNivel = (int) (xpParaProximoNivel * 1.2); // Aumenta a XP necessária para o próximo nível
-    
-        // Atualizando os valores máximos de HP e Mana
-        maxHP += 70;  // Aumenta o valor máximo de HP
-        maxMana += 40;  // Aumenta o valor máximo de Mana
-    
-        // Garantir que o HP e a Mana não ultrapassem seus respectivos máximos
-        HP = Math.min(HP + 70, maxHP);  // Atualiza HP e não deixa ultrapassar o valor máximo
-        mana = Math.min(mana + 40, maxMana);  // Atualiza Mana e não deixa ultrapassar o valor máximo
-    
+        xpParaProximoNivel = (int) (xpParaProximoNivel * 1.2);
+        maxHP += 70;
+        maxMana += 40;
+        HP = Math.min(HP + 70, maxHP);
+        mana = Math.min(mana + 40, maxMana);
+
         System.out.println(nome + " subiu para o nível " + nivel + "!");
         System.out.println("Novo HP: " + HP + " | Novo HP Máximo: " + maxHP);
         System.out.println("Nova Mana: " + mana + " | Nova Mana Máxima: " + maxMana);
     }
-    
 
     public int getNivel() {
         return nivel;
@@ -128,4 +122,57 @@ public class Personagens implements Interativos, Serializable {
         return maxHP;
     }
 
+    public void editarNivel(int novoNivel) {
+        if (novoNivel > 0 && novoNivel != this.nivel) {
+            this.nivel = novoNivel;
+            this.experiencia = 0;
+            this.xpParaProximoNivel = (int) (100 * Math.pow(1.2, novoNivel - 1));
+            this.maxHP = 100 + (novoNivel * 70);
+            this.maxMana = 50 + (novoNivel * 40);
+            this.HP = maxHP;
+            this.mana = maxMana;
+
+            System.out.println(nome + " agora está no nível " + novoNivel + "!");
+        } else {
+            System.out.println("O nível inserido é inválido!");
+        }
+    }
+
+    public void mudarClasse(String novaClasse) {
+        this.personagemClasse = novaClasse;
+        this.nivel = 1;
+        this.experiencia = 0;
+        this.xpParaProximoNivel = 100;
+        this.maxHP = 100;
+        this.maxMana = 50;
+        this.HP = maxHP;
+        this.mana = maxMana;
+
+        System.out.println(nome + " mudou para a classe " + novaClasse + "!");
+        System.out.println("Todos os atributos foram redefinidos!");
+    }
+
+    //  Métodos para Banir e Restaurar Personagens
+
+    public void banir() {
+        if (!banido) {
+            banido = true;
+            System.out.println(nome + " foi banido e está oculto!");
+        } else {
+            System.out.println(nome + " já está banido!");
+        }
+    }
+
+    public void restaurar() {
+        if (banido) {
+            banido = false;
+            System.out.println(nome + " foi restaurado e está disponível novamente!");
+        } else {
+            System.out.println(nome + " já está disponível!");
+        }
+    }
+
+    public boolean isBanido() {
+        return banido;
+    }
 }
